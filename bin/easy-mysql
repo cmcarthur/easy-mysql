@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+raise 'easy-mysql must be run as root. Try `rvmsudo easy-mysql`.' unless Process.uid == 0
+
+require 'easy-mysql'
+EasyMysql.driver
