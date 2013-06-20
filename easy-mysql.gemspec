@@ -5,7 +5,6 @@ Gem::Specification.new do |s|
 	s.summary     = "easy-mysql"
 	s.description = "A simple way to set up a secure MySQL connection."
 	s.authors     = ["Connor McArthur"]
-	s.email       = 'connormcarthur11@gmail.com'
 	s.files       = ["lib/easy-mysql.rb"]
 	s.executables << "easy-mysql"
 	s.homepage    =
