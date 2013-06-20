@@ -77,7 +77,7 @@ class EasyMysql
 		mysql_admin_password = gets.chomp
 
 		begin
-			connection = self.makeMySQLConnection(mysql_admin_username, mysql_admin_password)
+			connection = Mysql::new('127.0.0.1', mysql_admin_username, mysql_admin_password)
 		rescue => e
 			puts "\r\nERROR! #{e.message}".background(:red).bright
 			raise e
@@ -96,10 +96,6 @@ class EasyMysql
 		end
 
 		return new_user
-	end
-
-	def self.makeMySQLConnection(username, password)
-		Mysql::new('127.0.0.1', username, password)
 	end
 
 	def self.addMySQLUser(connection, new_username)
