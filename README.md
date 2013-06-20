@@ -1,6 +1,8 @@
 easy-mysql
 ==========
 
+[![Build Status](https://travis-ci.org/cmcarthur/easy-mysql.png?branch=master)](https://travis-ci.org/cmcarthur/easy-mysql)
+
 An easy way to set up a read-only MySQL connection secured by SSH. When run, this gem will:
 
  - Create a new MySQL user with `SELECT` privileges
