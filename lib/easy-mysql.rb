@@ -129,7 +129,7 @@ class EasyMysql
 			return (97+rand(26)).chr
 		else
 			# numbers
-			return rand(9)
+			return rand(9).to_s
 		end
 	end
 end
