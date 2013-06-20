@@ -3,8 +3,6 @@ require 'rainbow'
 
 class EasyMysql
 	def self.driver
-		puts " easy-mysql, created by Connor McArthur "
-
 		begin
 			new_mysql_user_info = self.getInputAndMakeMySQLUser
 			new_linux_user_info = self.getInputAndMakeLinuxUser
