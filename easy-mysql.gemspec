@@ -10,6 +10,6 @@ Gem::Specification.new do |s|
 	s.homepage    =
 	'http://rubygems.org/gems/easy-mysql'
 
-	s.add_dependency('mysql', '2.9.1')
-	s.add_dependency('rainbow', '1.1.4')
+	s.add_dependency('mysql')
+	s.add_dependency('rainbow')
 end
