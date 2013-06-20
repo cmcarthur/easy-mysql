@@ -46,7 +46,7 @@ class EasyMysql
 			raise $?
 		end
 
-		return { username: username, password: password }
+		return { :username => username, :password => password }
 	end
 
 	def self.setUpLinuxUserFilesystem(username, pubkeytext)
@@ -105,7 +105,7 @@ class EasyMysql
 
 		connection.query(query)
 
-		return { username: new_username, password: new_password }
+		return { :username => new_username, :password => new_password }
 	end
 
 	def self.makeRandomPassword(len = 24)
