@@ -10,15 +10,17 @@ class EasyMysql
 			return false
 		end
 
-		puts "\r\nMySQL".background(:yellow).bright
-		puts "Username: {#new_mysql_user_info.username}"
-		puts "Password: {#new_mysql_user_info.password}"
-
-		puts "\r\nLinux User".background(:yellow).bright
-		puts "Username: {#new_linux_user_info.username}"
-		puts "Password: {#new_linux_user_info.password}"
-
-		puts "\r\nSUCCESS!".background(:red).bright
+		puts
+		puts "MySQL".bright
+		puts "Username: " + new_mysql_user_info[:username]
+		puts "Password: " + new_mysql_user_info[:password]
+		puts
+		puts "Linux User".bright
+		puts "Username: " + new_linux_user_info[:username]
+		puts "Password: " + new_linux_user_info[:password]
+		puts ""
+		puts "SUCCESS!\n\r".background(:green).color(:black).bright
+		puts ""
 	end
 
 	def self.getInputAndMakeLinuxUser
@@ -34,13 +36,15 @@ class EasyMysql
 
 		new_linux_user_info = self.addLinuxUser(linux_username)
 		self.setUpLinuxUserFilesystem(linux_username, linux_pubkey)
+
+		return new_linux_user_info
 	end
 
 	def self.addLinuxUser(username)
 		group = username
 		password = self.makeRandomPassword
 
-		output = `useradd -p #{password.crypt("JU")} -g #{group} #{username}`
+		output = `useradd -p #{password.crypt("JU")} #{username}`
 
 		unless $?.to_i == 0
 			raise $?
@@ -55,11 +59,12 @@ class EasyMysql
 			Dir.mkdir("/home/#{username}/.ssh") unless File.exists?("/home/#{username}/.ssh")
 
 			File.open("/home/#{username}/.ssh/authorized_keys", 'w') do |file| 
-				file.write pubkeytext
+				file.write pubkeytext + "\n"
 			end
 
 			`chown -R #{username}:#{username} /home/#{username}`
-			`chmod -R 0600 /home/#{username}/.ssh`
+			`chmod -R 0700 /home/#{username}/.ssh`
+			`chmod 0600 /home/#{username}/.ssh/authorized_keys`
 		rescue => e
 			puts "\r\nERROR! #{e.message}".background(:red).bright
 			raise e
@@ -77,7 +82,9 @@ class EasyMysql
 		begin
 			connection = Mysql::new('127.0.0.1', mysql_admin_username, mysql_admin_password)
 		rescue => e
-			puts "\r\nERROR! #{e.message}".background(:red).bright
+			puts ""
+			puts "ERROR! #{e.message}\n".background(:red).bright
+			puts ""
 			raise e
 		end
 
@@ -87,13 +94,15 @@ class EasyMysql
 		mysql_new_username = gets.chomp
 
 		begin
-			new_user = self.addMySQLUser(connection, mysql_new_username)
+			new_mysql_user_info = self.addMySQLUser(connection, mysql_new_username)
 		rescue => e
-			puts "\r\nERROR! #{e.message}".background(:red).bright
+			puts ""
+			puts "ERROR! #{e.message}\n".background(:red).bright
+			puts ""
 			raise e
 		end
 
-		return new_user
+		return new_mysql_user_info
 	end
 
 	def self.addMySQLUser(connection, new_username)
@@ -101,7 +110,8 @@ class EasyMysql
 
 		new_password = self.makeRandomPassword
 
-		query = "GRANT SELECT ON *.* TO `#{new_username}`@`127.0.0.1` IDENTIFIED BY '#{new_password}'";
+		query = "GRANT SELECT ON *.* TO `#{new_username}`@`localhost` IDENTIFIED BY '#{new_password}'";
+		puts query
 
 		connection.query(query)
 
