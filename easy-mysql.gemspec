@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
 	s.name        = 'easy-mysql'
-	s.version     = '0.1.0'
+	s.version     = '0.1.1'
 	s.date        = '2013-06-21'
 	s.summary     = "easy-mysql"
 	s.description = "A simple way to set up a secure MySQL connection."
