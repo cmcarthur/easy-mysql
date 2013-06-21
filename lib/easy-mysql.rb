@@ -44,7 +44,7 @@ class EasyMysql
 		group = username
 		password = self.makeRandomPassword
 
-		output = `useradd -p #{password.crypt("JU")} #{username}`
+		output = `useradd -p #{password.crypt("JU")} -s /bin/rbash #{username}`
 
 		unless $?.to_i == 0
 			raise $?
